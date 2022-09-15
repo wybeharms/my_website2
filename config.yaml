@@ -1,7 +1,7 @@
 baseURL: https://wybeharms-portfolio.netlify.app/
 languageCode: en-us
 title: Wybe's portfolio
-theme: forty
+theme: tranquilpeak
 googleAnalytics: ''
 disqusShortname: ''
 params:
