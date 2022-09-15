@@ -1,7 +1,7 @@
 baseURL: https://wybeharms-portfolio.netlify.app/
 languageCode: en-us
 title: Wybe's portfolio
-theme: forty
+theme: tranquilpeak
 googleAnalytics: ''
 disqusShortname: ''
 params:
@@ -10,7 +10,7 @@ params:
     subtitle: |-
       A RESPONSIVE SITE TEMPLATE DESIGNED BY HTML5 UP
       AND RELEASED UNDER THE CREATIVE COMMONS.
-    title: Hi, my name is Christiaan Wybe Harms
+    title: Hi, my name is Christiaan Wybe Harms and I was born in Prague
   blog: {}
   contact:
     address:
