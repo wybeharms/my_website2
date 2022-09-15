@@ -13,8 +13,6 @@ title: Risk-Return of DJIA stocks
 ---
   
 
-
-
 ```{r, setup, echo=FALSE}
 knitr::opts_chunk$set(
   message = FALSE, 

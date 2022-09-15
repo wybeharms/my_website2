@@ -1,0 +1,61 @@
+---
+categories:
+- ""
+- ""
+date: "2022-09-15"
+description: ""
+draft: false
+image: bank_of_london.jpeg
+keywords: ""
+slug: bank_of_london
+title: Analysis of discrimination at Bank of London
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(here)
+library(skimr)
+library(janitor)
+library(vroom)
+library(tidyquant)
+library(infer)
+```
+
+
+```{r}
+data0 <- read_csv(here::here("data", "loan-two-years-raw-data.csv"))
+data <- data0[, -c(6:10)]%>% #deleted the columns with no data in them
+  na.omit(data) #deletes all rows with a NA value
+skim(data)
+
+```
+
+
+```{r, review basic calculations}
+favstats(~credit_score, data = data)
+
+```
+
+
+```{r, hypothesis testing to see correlation credit score and default}
+t.test(credit_score ~ default, data = data)
+
+```
+
+We conducted a t-test where we hypothesis that there is no correlation between one's credit rating
+and the chance of default. If there was actually no difference between these two variables, the difference in mean would be very small. Likewise the t-value would be below 2, indicating that the variables have no significant affect on each other. However, in this case, the t-value is -29.42 and the p-value is very small. This means that we can reject the hypothesis that there is no correlation between default and credit rating. In other words, claiming that London Bank gave out loans by means of a "coin-flip" is untrue.
+
+```{r}
+
+
+```
+
+
