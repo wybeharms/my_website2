@@ -166,5 +166,3 @@ predict(model4, newdata = tomorrow, interval = "prediction")
 
 Based on the inputted data into our regression model, tomorrow we expect 33061 bikes to be hired. This is quite a bit higher than the average, 26746, but that makes sense as we are still in September and days of almost 20 degrees with no rain can be considered as good days to bike in London.
 
-
-
