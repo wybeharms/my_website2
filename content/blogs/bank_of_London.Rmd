@@ -34,28 +34,84 @@ library(infer)
 data0 <- read_csv(here::here("data", "loan-two-years-raw-data.csv"))
 data <- data0[, -c(6:10)]%>% #deleted the columns with no data in them
   na.omit(data) #deletes all rows with a NA value
+
 skim(data)
 
 ```
 
+First we filter out unnecessary columns and delete rows that contain NA values. After this is done we can skim the data to get a better understanding of what we have to play with. 
+It can be observed that there are 6150 rows of different individuals who applied for a (high risk) loan. We have the date that they applied, the group they belong to, their credit score (1-10, ten being very bad) and lastly whether they defaulted on their loan or not (1 = default, 0 = paid back). This latter information was gathered by assessing the default rate of the people who applied at London Bank but got rejected and got a loan at another bank. This means that the data we have on default is accurate and thus "ground truth". 
+
 
 ```{r, review basic calculations}
 favstats(~credit_score, data = data)
+favstats(~default, data = data)
 
 ```
 
+We use the function favstats to get information on the most common statistics. We can notice that the mean credit score is 4.7 out of 10, while the mean default rate is 49.77%.
 
-```{r, hypothesis testing to see correlation credit score and default}
-t.test(credit_score ~ default, data = data)
 
-```
+Mean is 0.49 while sd is 0.50... HOW ???
 
-We conducted a t-test where we hypothesis that there is no correlation between one's credit rating
-and the chance of default. If there was actually no difference between these two variables, the difference in mean would be very small. Likewise the t-value would be below 2, indicating that the variables have no significant affect on each other. However, in this case, the t-value is -29.42 and the p-value is very small. This means that we can reject the hypothesis that there is no correlation between default and credit rating. In other words, claiming that London Bank gave out loans by means of a "coin-flip" is untrue.
 
 ```{r}
 
+data <- data%>%
+  mutate(risk = ifelse(credit_score >= 5, 
+                       c("High"),
+                       c("Low")))
+
+with(data, t.test(default~risk))
 
 ```
+
+We conducted a t-test where we hypothesis that there is no correlation between one's credit rating and the chance of default. In other words, we hypothesis that the London Bank gave out loans at random. To do this we created two groups, the high risk and low risk depending on the credit rating (high risk = credit rating > 5) and run a t-test between the variables risk and default. If there was actually no difference between these two variables, the difference in mean would be very small. Likewise the t-value would be below 2, indicating that the variables have no significant affect on each other. 
+
+However, after running the t-test, we realize that the difference in means is not equal to zero meaning that there is a difference between the default rate of people with a low credit score and with a high credit score. To be more precise, people with a high credit score will default on average 64% of the time while people with a low credit score will default on average 35% of the time, almost a factor 2 less. 
+
+Claiming that London Bank gave out loans by means of a "coin-flip" is therefore untrue.
+
+#Doesn't this just say that people with higher credit score have higher chance of defaulting?
+
+```{r}
+
+t.test(credit_score ~ default, data = data)
+
+```
+#This says that people that default have a higher credit score
+
+```{r}
+#Calc average default rate (95% confidence) for each credit score
+
+data1 <- data%>%
+  group_by(credit_score)%>%
+  summarize(amount = count(credit_score),
+            t_critical = qt(0.975, amount-1),
+            se = sd(default)/sqrt(amount),
+            radius = t_critical*se,
+            mean_d = mean(default))%>%
+  select(credit_score,amount,mean_d)%>%
+  ggplot(aes(x = credit_score, y = mean_d))+
+  geom_errorbar(ymin = mean_d-radius, ymax = mean_d+radius)
+
+```
+#why does it not work???
+
+```{r}
+data2 <- data%>%
+  mutate(risk = ifelse(risk == "High", 1, 0))
+
+with(data2, t.test(risk~group))
+with(data2, t.test(default~group))
+```
+
+We want measure if the London Bank discriminates against members of a certain group. For example, are people in Group D classified more often as high risk then members of Group A despite having a similar default rate?
+
+First we run a t-test where we look at the probability that someone from each group is labeled as high risk. We notice how there is 34% chance that someone in group A is labeled as high risk and 58% chance that this happens to someone from group D. However, is this because of group discrimination or because they have a higher chance of default? 
+To measure this we do another t-test comparing the chance of default for both groups. Here, we can see that group A has 41% chance of default and group D 55% chance of default. This most likely explains why members of group D have a higher chance of being labeled as high risk. 
+
+
+
 
 

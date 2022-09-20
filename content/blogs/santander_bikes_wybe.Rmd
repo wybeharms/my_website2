@@ -1,0 +1,153 @@
+---
+title: "london_santander_bikes_wybe"
+author: "Wybe Harms"
+date: "2022-09-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(GGally)
+library(here)
+library(skimr)
+library(janitor)
+library(broom)
+library(huxtable)
+library(lubridate)
+library(ggfortify)
+library(moderndive)
+library(patchwork)
+library(palmerpenguins)
+```
+
+We read the csv file stored in the "data" folder. 
+
+```{r}
+bike <- read_csv(here::here("data", "london_bikes.csv"))
+```
+
+First we want to change the dates, so the year, the month and the days of the week to date type. Like this we will be able to perform time functions on the dates. 
+
+```{r, fix dates}
+bike <- bike %>%   
+  mutate(
+    year=year(date),
+    month = month(date),
+    month_name=month(date, label = TRUE),
+    day_of_week = wday(date, label = TRUE)) 
+```
+
+Next, we would like to know in which season a certain date falls in. This will allow us to use seasonality as a explanatory variable later on in the regression models. In order for R to understand the difference seasons we have converted the seasons from a character type to a factor type. 
+
+```{r, add seasons}
+bike <- bike %>%  
+  mutate(
+    season_name = case_when(
+      month_name %in%  c("Dec", "Jan", "Feb")  ~ "Winter",
+      month_name %in%  c("Mar", "Apr", "May")  ~ "Spring",
+      month_name %in%  c("Jun", "Jul", "Aug")  ~ "Summer",
+      month_name %in%  c("Sep", "Oct", "Nov")  ~ "Autumn",
+    ),
+    season_name = factor(season_name, 
+                         levels = c("Winter", "Spring", "Summer", "Autumn"))
+  )
+```
+
+Having cleaned the data we skim the bike csv to get a better idea of what data we exactly have. We can observe that we have 4385 rows wutg 19 columns that give us information about meteorology-related variables such as the temperature, precipitation, cloud cover and even the snow depth. 
+
+```{r}
+skim(bike)
+```
+
+Snow depth and humidity both have missing values. For snow depth we will change these N/A values to zero, since it most likely means there wasn't any snow that day. For humidity we will take a difference approach, mainly we replace the missing values with the average humidity. This is because replacing it with a zero will significantly distort the data as humidity is rarely zero. 
+
+```{r, replace na's}
+bike <- bike%>%
+  mutate(snow_depth = ifelse(is.na(snow_depth), 0, snow_depth),
+         humidity = ifelse(is.na(humidity), mean(humidity), humidity))
+```
+
+We would like to view some interesting stats on the amount of bikes hired. The average amount of bikes hired per day is 26,746 with the maximum being 
+
+```{r}
+favstats(~bikes_hired, data = bike)
+```
+We conduct a quick t-test to find the the 95% confidence interval for the mean. The lower bound is 26455 while the upper bound is 27038.
+
+```{r}
+with(bike, t.test(~bikes_hired))
+```
+
+Now it is time to run some regression models to understand to what extent certain variables can explain the variance found in bikes hired. For example, does the temperature affect how many bikes are hired? First we have a look at the correlation of three different variables (temperature, precipitation and sunshine) with bikes hired. 
+
+```{r, find correlation}
+get_correlation(bikes_hired ~ mean_temp, data = bike)
+get_correlation(bikes_hired ~ precipitation, data = bike)
+get_correlation(bikes_hired ~ sunshine, data = bike)
+
+```
+The correlation between temperature and bikes hired is the strongest at 0.63, followed by sunshine (0.52) and then by precipitation (-0.25). It is very important we plot the relationship though because having a strong relationship according to the r correlation does not necessary mean that the variables correlate. We therefore run ggpairs to plot the relationships between all the variables.
+
+```{r, double check relationship by plotting visually}
+ggpairs(bike, 
+        columns = c("bikes_hired", "precipitation", "sunshine", "mean_temp"))
+```
+
+These plots reveal that there is definitely some correlation between the variables and the amount of bikes hired. And as r correlation told us, it seems like precipitation has the weakest correlation with bikes hired. Interestingly, and as expected, sunshine and mean temperature have a rather strong correlation of 0.39. Likewise precipitation and sunshine have a negative correlation of -0.25. Later we will double check for multicollinearity by performing a vif test on all the variables. But first, lets run a basic regression test on each variable individually. 
+
+
+```{r, run regression}
+model1 <- lm(bikes_hired ~ mean_temp, data = bike)
+model2 <- lm(bikes_hired ~ precipitation, data = bike)
+model3 <- lm(bikes_hired ~ sunshine, data = bike)
+model4 <- lm(bikes_hired ~ mean_temp + sunshine + precipitation, data = bike)
+
+huxreg(model1, model2, model3, model4)
+huxreg(list("Temperature" = model1,
+           "Precipitation" = model2,
+           "Sunshine" = model3,
+           "All" = model4))
+car::vif(model4)
+```
+
+The 4 regression models reveal some interesting details. The y-intercept for all the models are different. For example, when it doesn't rain, the average bikes hired is 27853 and as precipitation increases by one unit, bikes hired drop by 65. On the other hand, if there is no sunshine, the average bikes hired is 21245 (so less than if there wasn't any rain), but, for each unit increase of sunshine, bikes hired increase by 132. The biggest increase in bikes hired can be seen when temperature increases. For every increase in temperature bikes hired increase by 1099. Simply comparing the slopes won't reveal all too much though as a unit increase of sunshine might be very insignificant (as sunshine can vary between 0-100) while the range of temperature is much smaller and thus a unit change has a larger impact. 
+Looking at the R squared, which tells us how much better that model is than the mean model (a straight line), we can observe that Temperature has the highest value of independent variables (0.403). The model that includes all variables has an R squared of 0.52 which means that half of the variability of bikes hired can be explained by the three variables we decided to test for. The slope of each variable does not dramatically change as we include the other variables in the model. Sometimes interesting observations arise as you include multiple variables, however, in this case not too much changes. 
+Lastly, to check for multicollinearity we ran a vif test on the three variables. None of the variables comes close to a vif score of 10, meaning that the do not explain each other's impact on the outcome variable.  
+
+```{r}
+anova(model1)
+anova(model2)
+anova(model3)
+anova(model4)
+```
+
+
+```{r}
+confint(model4)
+```
+
+To conclude the analysis of Santander bikes hired in London, we will try and predict how many bikes will be hired tomorrow (Wednesday September 21st). Based on the weather forecast tomorrow will be 19 degrees, there will be zero rain and there will be some sunshine but it will mostly be cloudy, hence sunshine will be 32 (the median of London).
+
+
+```{r}
+
+tomorrow <- tibble(mean_temp = 19,
+                   precipitation = 0,
+                   sunshine = 32)
+  
+predict(model4, newdata = tomorrow, interval = "prediction")
+
+```
+
+Based on the inputted data into our regression model, tomorrow we expect 33061 bikes to be hired. This is quite a bit higher than the average, 26746, but that makes sense as we are still in September and days of almost 20 degrees with no rain can be considered as good days to bike in London.
+
+
+
+
+
+

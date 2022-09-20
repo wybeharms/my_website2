@@ -95,10 +95,10 @@ params:
         subtitle: Lorem Etiam Nullam
         title: Finance Project
         url: blogs/risk_return
-      - image: san-francisco.jpeg
-        subtitle: Analysis of rent prices between 2000-2018
-        title: Real Estate in SF
-        url: blogs/sf
+      - image: santander_bikes.jpeg
+        subtitle: Regression analysis of how many bikes will be hired
+        title: Santander Bikes London
+        url: blogs/santander_bikes
       - image: bank_of_london.jpeg
         subtitle: Was there discrimination at Bank of London
         title: Bank of London
