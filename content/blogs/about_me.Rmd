@@ -1,0 +1,39 @@
+---
+categories:
+- ""
+- ""
+date: "2017-10-31T21:28:43-05:00"
+description: ""
+draft: false
+image: Fam_picture.jpeg
+keywords: ""
+slug: about_me
+title: Brief History of Wybe
+---
+
+# Introduction
+
+Hi, so as you know by now my name is **Wybe** (although on my passport my first name is actually Christiaan, but that is a story for another time). I was born in Prague and then lived in Barcelona, Paris and Amsterdam with my family. After graduating from the international school of Amsterdam I moved *back* to Barcelona to study at [ESADE Business School](https://en.wikipedia.org/wiki/ESADE_Business_School). In my fourth year I did my exchange in Austin, Texas at [The University of Texas](https://www.utexas.edu/) which was a great experience! Now I am very excited to continue my academics at LBS doing analytics!
+
+## Hobbies
+
+Many people would not expect my passion for visual art and painting as a business student. However, since I was a kid I enjoy making art works. The last couple of years I have not been too active as an artist, although I am planning to pick it up in the near future as my head is filling up with ideas for different paintings. Here are some pictures of paintings that I have made:
+
+```{r image, include=FALSE}
+knitr::include_graphics("/img/portrait.JPG",error=FALSE)
+```
+
+```{r, include=FALSE}
+knitr::include_graphics("/img/color_painting.JPG",error=FALSE)
+```
+
+```{r, include=FALSE}
+knitr::include_graphics("/img/tiger.JPG",error=FALSE)
+```
+
+```{r, include=FALSE}
+knitr::include_graphics("/img/exposition.JPG",error=FALSE)
+```
+
+
+

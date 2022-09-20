@@ -72,7 +72,7 @@ However, after running the t-test, we realize that the difference in means is no
 
 Claiming that London Bank gave out loans by means of a "coin-flip" is therefore untrue.
 
-#Doesn't this just say that people with higher credit score have higher chance of defaulting?
+#Doesn't this just say that people with higher credit risk have higher chance of defaulting?
 
 ```{r}
 
@@ -85,18 +85,21 @@ t.test(credit_score ~ default, data = data)
 #Calc average default rate (95% confidence) for each credit score
 
 data1 <- data%>%
-  group_by(credit_score)%>%
-  summarize(amount = count(credit_score),
-            t_critical = qt(0.975, amount-1),
-            se = sd(default)/sqrt(amount),
-            radius = t_critical*se,
-            mean_d = mean(default))%>%
-  select(credit_score,amount,mean_d)%>%
-  ggplot(aes(x = credit_score, y = mean_d))+
-  geom_errorbar(ymin = mean_d-radius, ymax = mean_d+radius)
-
+  group_by(risk)%>%
+  summarize(mean_default = mean(default),
+            sd_default = sd(default),
+            sum = n(),
+            se = sd_default/sqrt(sum),
+            CI_low = mean_default - 1.96*se,
+            CI_high = mean_default + 1.96*se)%>%
+  select(risk,sum,mean_default, CI_low, CI_high)%>%
+  ggplot(aes(x = risk, y = mean_default))+
+  geom_point()+
+  geom_errorbar(aes(ymin=CI_low, ymax = CI_high))+
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 1))
+data1
 ```
-#why does it not work???
+
 
 ```{r}
 data2 <- data%>%
@@ -110,8 +113,4 @@ We want measure if the London Bank discriminates against members of a certain gr
 
 First we run a t-test where we look at the probability that someone from each group is labeled as high risk. We notice how there is 34% chance that someone in group A is labeled as high risk and 58% chance that this happens to someone from group D. However, is this because of group discrimination or because they have a higher chance of default? 
 To measure this we do another t-test comparing the chance of default for both groups. Here, we can see that group A has 41% chance of default and group D 55% chance of default. This most likely explains why members of group D have a higher chance of being labeled as high risk. 
-
-
-
-
 

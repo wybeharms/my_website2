@@ -86,32 +86,20 @@ params:
       - image: Background picture.jpg
         subtitle: Learn more about Wybe!
         title: About me
-        url: 
-      - image: pic02.jpg
+        url: blogs/about_me
+        
+      - image: portrait.JPG
         subtitle: Learn more about my academic and professional experiences
         title: CV
         url: blogs/Christiaan WybeHarms_Resume LBS.pdf
-      - image: buyhigh_selllow.jpeg
-        subtitle: Lorem Etiam Nullam
-        title: Finance Project
-        url: blogs/risk_return
+        
       - image: santander_bikes.jpeg
         subtitle: Regression analysis of how many bikes will be hired
         title: Santander Bikes London
         url: blogs/santander_bikes
+        
       - image: bank_of_london.jpeg
         subtitle: Was there discrimination at Bank of London
         title: Bank of London
         url: blogs/bank_of_london
 
-  two:
-    buttonText: Get Started
-    enable: yes
-    subtitle: "Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero.
-      \n    Mauris aliquet magna magna sed nunc rhoncus pharetra. \n    Pellentesque
-      condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia
-      pellentesque lorem ipsum dolor. \n    Nullam et orci eu lorem consequat tincidunt.
-      Vivamus et sagittis libero.\n    Mauris aliquet magna magna sed nunc rhoncus
-      amet pharetra et feugiat tempus."
-    title: Massa libero
-    url: blogs
