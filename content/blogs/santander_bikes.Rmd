@@ -117,6 +117,9 @@ These plots reveal that there is definitely some correlation between the variabl
 
 ```{r run regression, include = FALSE}
 model1 <- lm(bikes_hired ~ mean_temp, data = bike)
+msummary(model1)
+modelmean <- lm(bikes_hired ~ 1, data = bike)
+msummary(modelmean)
 model2 <- lm(bikes_hired ~ precipitation, data = bike)
 model3 <- lm(bikes_hired ~ sunshine, data = bike)
 model4 <- lm(bikes_hired ~ mean_temp + sunshine + precipitation, data = bike)

@@ -1,6 +1,6 @@
 baseURL: https://wybeharms-portfolio.netlify.app/
 languageCode: en-us
-title: Wybe's portfolio
+title: Wybe Harms Website
 theme: forty
 googleAnalytics: ''
 disqusShortname: ''
@@ -8,15 +8,15 @@ params:
   banner:
     buttonText: Get Started
     subtitle: |-
-      Welcome to my portfolio website. Here you will find information about me and some
-      work I have done during my Masters in Analytics at LBS!
-    title: Hi, my name is Wybe Harms
+      My name is Wybe Harms and welcome to my portfolio website. I am currently pursuing a Masters in Analytics 
+      at London Business School!
+    title: Hi There!
   blog: {}
   contact: 
     address:
-      - city: Amsterdam, 250 1076DZ
-        country: The Netherlands
-        street: Afroditekade
+      - city: London, W9 3EF
+        country: United Kingdom
+        street: Kilburn Ln
         title: Address
     buttonClear: Clear
     buttonSend: Send message
