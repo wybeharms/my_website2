@@ -8,9 +8,9 @@ params:
   banner:
     buttonText: Get Started
     subtitle: |-
-      My name is Wybe Harms and welcome to my portfolio website. I am currently pursuing a Masters in Analytics 
-      at London Business School!
-    title: Hi There!
+      My name is Wybe Harms and I am currently pursuing a Masters in Analytics 
+      at London Business School. Welcome to my website!
+    title: Hi there!
   blog: {}
   contact: 
     address:
@@ -65,18 +65,18 @@ params:
     button1:
       - name: Get Started
         url: blogs
-    button2:
-      - name: Log In
-        url: '#'
+#    button2:
+#      - name: Log In
+#        url: '#'
     links:
       - name: Home
         url: '#'
       - name: Blogs
         url: blogs
-      - name: Generic Blog
-        url: blogs/ipsum
-      - name: Elements
-        url: elements.html
+#      - name: Generic Blog
+#        url: blogs/ipsum
+#      - name: Elements
+#        url: elements.html
     menu: Menu
     subtitle: 
     title: 
