@@ -7,7 +7,7 @@ description: Showcasing some of my art works
 draft: false
 image: color_painting.jpeg
 keywords: ""
-slug: professional_page
+slug: art_page
 title: Professional and Academic Experiences
 ---
 
