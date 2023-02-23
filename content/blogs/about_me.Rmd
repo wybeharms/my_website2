@@ -2,35 +2,57 @@
 categories:
 - ""
 - ""
-date: "2022-09-20"
+date: "2023-02-22"
 description: ""
 draft: false
-image: Fam_picture.jpeg
+image: kid.jpeg
 keywords: ""
 slug: about_me
-title: Brief History of Wybe
+title: A Brief History of Wybe
 ---
 
-# Introduction
+## Early Years
 
-Hi, so as you know by now my name is **Wybe** (although on my passport my first name is actually Christiaan, but that is a story for another time). I was born in Prague and then lived in Barcelona, Paris and Amsterdam with my family. After graduating from the international school of Amsterdam I moved *back* to Barcelona to study at [ESADE Business School](https://en.wikipedia.org/wiki/ESADE_Business_School). In my fourth year I did my exchange in Austin, Texas at [The University of Texas](https://www.utexas.edu/) which was a great experience! Now I am very excited to continue my academics at LBS doing analytics!
+On July 15th 1999, I was born in the outskirts of Prague, Czech Republic, as **Christiaan Wybe Harms** to my parents as their first child. In my first living year my parents and I moved to Barcelona, Spain where my dad pursued a new business opportunity. Growing up under the Spanish sun shaped me into a real outside person as I would ride my bike in the garden or build my own miniature sailboats. Being the playful kid that I was, learning Spanish, Catalan, English and Dutch simultaneously was tough, but my moms structured approach to after-school classes helped a lot.
 
-## Hobbies
+> *"Paris"
 
-Many people would not expect my passion for visual art and painting as a business student. However, since I was a kid I enjoy making art works. The last couple of years I have not been too active as an artist, although I am planning to pick it up in the near future as my head is filling up with ideas for different paintings. Here are some pictures of paintings that I have made:
+At the age of nine, and two little brothers later, I moved to Paris, France and switched from the **British School of Barcelona** to the **American School of Paris**. Changing from the strict British system to a freer American system was for the better, despite the work load being much more in Paris. We only lived in Paris for two years before moving the Amsterdam, The Netherlands where I joined the **International School of Amsterdam** (ISA) as a 6th grader.
+
+> *"Amsterdam"
+
+During my time at ISA I was a student ambassador welcoming new students, took part in many extracurricular activities such as debate, green team, Model United Nations, Fair trade, and most prominently completed all three levels of the Duke of Edinburgh award. I would go on to complete the **International Baccalaureate** (IB) with honors in May 2017, and thanks to my interest in economics and companies, I knew early on that I wanted to study business.
+
+## Becoming a Business Boss
+
+An IB diploma and many international friends richer, it was now time to step up my learning in everything that has to do with business. I chose to follow a 4-year bachelor's in Business Administration program (BBA) at [ESADE Business School](https://en.wikipedia.org/wiki/ESADE_Business_School) in Barcelona, Spain because it was in line with the teaching methodology I was used to and covered many subjects. *And boy did they make us work*. Weeks with 33 hours of lectures, let alone all the homework, were common, especially since I took French and Spanish language classes. My class was very international and I formed friendships for life. Additionally, the faculty proved to be very knowledgeable and the classes ranged from statistics to marketing, and from corporate finance to operations. I graduated in July 2021 and thanks to my hunger to learn more, I actually completed the degree with 19 credits more than was required. 
+
+## Everything's BIGGER in Texas
+
+In my forth and final year of my bachelor's degree I was fortunate enough to go on exchange in the midst of the pandemic. Out of the 25 exchange school in the US, only 3 accepted exchange students, of which [The University of Texas](https://www.utexas.edu/) was one. It was always a dream of mine to study in the US, not only to experience "collage life", but also because the American culture of working hard and creating opportunities appeals to me. It was here that I took an Introduction to Python course that I enjoyed a lot, prompting me to have a closer look at what coding and data really means.
 
 ```{r}
-knitr::include_graphics("/img/color_painting.JPG",error=FALSE)
+knitr::include_graphics("/img/blogs/Texas_group.jpeg",error=FALSE)
 ```
+
+## Data is the new Oil
+
+So the one thing that kept coming up during my 4 year bachelor was that data is the most valuable asset in our current age. I felt that with my experience in math, statistics and even the analytical skills I learnt in my finance classes, I was still unjustifiably inexperienced in data analytics. During my job at Zapp (a start-up that delivers groceries in minutes) the role  data plays in an organization became more apparent and it was this time that I decided to apply to the Masters in Analytics and Management (MAM) at London Business School (LBS). The reason for this is twofold:
+
+>**First**, If I pursue a master's degree, I want to do it in something more technical
+>
+>**Second**, To accomidate my passion for business, data analytics skills will prove very useful
+
+I was fortunate enough to be admitted and have thus far had a really great time in London and at LBS. For me this program was the perfect intersection between deep level data analytics and business applications. My classmates are all very talented with most of them having a technical background with for example electrical engineering or computer science degrees. This has allowed me to learn a tremendous amount from them! In terms of non-academic activities, I joined the ExCo of the [Investment Management Club](https://lbs-imc.com/about-us/) because of my passion for the stock market. Here I run the website and more importantly led the restructuring of the £750,000 fund. We simplified the asset classes to only equities and fixed-income and introducing a fixed weight of 5% for each position added. Lastly, I write bi-weekly newsletters about interesting and under-appreciated topics, often in collaboration with experts in their respective fields. 
+
+Here is an example of a newsletter I wrote: [IMC Newsletter January 2023](https://www.dropbox.com/s/a60zk2fosmm2fjh/Newsletter%20Jan%202023.pdf?dl=0)
+
+## More to discover
+
+Many people would not expect my passion for visual art and painting as a business student. However, since I was a kid I enjoy making art works. The last couple of years I have not been too active as an artist, although I am planning to pick it up in the near future as my head is filling up with ideas for different paintings. Have a look on the home page for "My Online Art Exhibition".
 
 ```{r}
-knitr::include_graphics("/img/portrait.JPG",error=FALSE)
+knitr::include_graphics("/img/blogs/family.jpeg",error=FALSE)
 ```
 
-```{r}
-knitr::include_graphics("/img/tiger.JPG",error=FALSE)
-```
-
-I have two younger brothers (2003 and 2008) that I get along very well with! My parents and youngest brother  live in Amsterdam and so does my middle brother although he is studying at the university there. He, my middle brother, is called Beer and is actually the Dutch National Champion U20 for the 800m. This summer he actually went to Cali, Colombia for the U20 Track and Field World Championships. On [this](https://www.youtube.com/watch?v=399abdCsj4M&t=6667s) YouTube link, at 1 hour 51 min, you can see his introduction and race!
-
-
+I have two younger brothers (2003 and 2008) that I get along very well with! My family live together in Amsterdam (although my middle brother with a friend since he's studying at the University of Amsterdam). He, my middle brother, is called Beer and is actually the Dutch National Champion U20 for the 800m. This summer he went to Cali, Colombia for the U20 Track and Field World Championships. On [this](https://www.youtube.com/watch?v=399abdCsj4M&t=6667s) YouTube link you can see his race at 1 hour 51 min!

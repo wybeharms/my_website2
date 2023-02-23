@@ -1,6 +1,6 @@
 baseURL: https://wybeharms.netlify.app//
 languageCode: en-us
-title: Wybe Harms Website
+title: Wybe's Website
 theme: forty
 googleAnalytics: ''
 disqusShortname: ''
@@ -37,12 +37,12 @@ params:
     text: Please visit [apple.com](/)
   favicon: favicon.ico
   footer:
-    copyright: Wybe Harms
+    copyright: Intellectual Property of Wybe Harms
     enable: yes
     quicklinks:
-      - alt: 
-        text:
-        url: 
+      - alt: HTML5 UP
+        text: "Deisgn: "
+        url: https://www.html5up.net
     social:
       - icon: \#
         label: \#
@@ -63,8 +63,8 @@ params:
   name: Your name
   navigation:
     button1:
-      - name: Get Started
-        url: blogs
+      - name: Download my CV
+        url: blogs/Christiaan Wybe Harms Resume.pdf
 #    button2:
 #      - name: Log In
 #        url: '#'
@@ -88,15 +88,15 @@ params:
         title: About me
         url: blogs/about_me
         
-      - image: portrait.JPG
-        subtitle: Learn more about my academic and professional experiences
-        title: CV
-        url: blogs/Christiaan WybeHarms_Resume LBS.pdf
+      - image: MAMv2.jpg
+        subtitle: Learn more about the serious side of Wybe
+        title: Academic and Professional Experiences
+        url: blogs/professional_page
         
-      - image: santander_bikes.jpeg
-        subtitle: Regression analysis of how many bikes will be hired
-        title: Santander Bikes London
-        url: blogs/santander_bikes
+      - image: portrait.JPG
+        subtitle: Showcasing some of my older paintings
+        title: My Online Art Exhibition
+        url: blogs/art_page
         
       - image: bank_of_london.jpeg
         subtitle: Was there discrimination at Bank of London

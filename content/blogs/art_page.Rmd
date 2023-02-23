@@ -1,0 +1,32 @@
+---
+categories:
+- ""
+- ""
+date: "2023-02-22"
+description: Showcasing some of my art works
+draft: false
+image: color_painting.jpeg
+keywords: ""
+slug: professional_page
+title: Professional and Academic Experiences
+---
+
+### The above artwork is probably my favorite because I took a very unonventional approach by making the canvas 3D. It also turned out better than I had envisioned.
+
+```{r}
+knitr::include_graphics("/img/blogs/making_painting.jpeg",error=FALSE)
+```
+
+
+### This was my monthers day present
+
+```{r}
+knitr::include_graphics("/img/blogs/tiger.jpeg",error=FALSE)
+```
+
+
+### Portrait depicting myself as Leonardo DiCaprio in the great Gatsby...
+
+```{r}
+knitr::include_graphics("/img/blogs/portrait.JPG",error=FALSE)
+```
