@@ -5,13 +5,17 @@ categories:
 date: "2023-02-22"
 description: ""
 draft: false
-image: kid.jpeg
+image: 
 keywords: ""
 slug: about_me
 title: A Brief History of Wybe
 ---
 
 ## Early Years
+
+```{r, echo = FALSE}
+knitr::include_graphics("/img/blogs/kid_copy.jpeg",error=FALSE)
+```
 
 > *"Prague"
 
@@ -34,7 +38,7 @@ During my time at ISA I was a student ambassador welcoming new students, took pa
 An IB diploma and many international friends richer, it was now time to step up my learning in everything that has to do with business. I chose to follow a 4-year bachelor's in Business Administration program (BBA) at [ESADE Business School](https://en.wikipedia.org/wiki/ESADE_Business_School) in Barcelona, Spain because it was in line with the teaching methodology I was used to and covered many subjects. *And boy did they make us work*. Weeks with 33 hours of lectures, let alone all the homework, were common, especially since I took French and Spanish language classes. My class was very international and I formed friendships for life. Additionally, the faculty proved to be very knowledgeable and the classes ranged from statistics to marketing, and from corporate finance to operations. I graduated in July 2021 and thanks to my hunger to learn more, I actually completed the degree with 19 credits more than was required. 
 
 ```{r, echo = FALSE}
-knitr::include_graphics("/img/blogs/Esade_first_year.jpeg",error=FALSE)
+knitr::include_graphics("/img/blogs/esade_graduation.jpeg",error=FALSE)
 ```
 
 ## Everything's BIGGER in Texas
@@ -49,9 +53,9 @@ knitr::include_graphics("/img/blogs/Texas_group.jpeg",error=FALSE)
 
 So the one thing that kept coming up during my 4 year bachelor was that data is the most valuable asset in our current age. I felt that with my experience in math, statistics and even the analytical skills I learnt in my finance classes, I was still unjustifiably inexperienced in data analytics. During my job at Zapp (a start-up that delivers groceries in minutes) the role  data plays in an organization became more apparent and it was this time that I decided to apply to the Masters in Analytics and Management (MAM) at London Business School (LBS). The reason for this is twofold:
 
->**First**, If I pursue a master's degree, I want to do it in something more technical
+>**Firstly**, if I pursue a master's degree, I want to do it in something more technical
 >
->**Second**, To accomidate my passion for business, data analytics skills will prove very useful
+>**Secondly**, to accommodate my passion for business, data analytics skills will prove very useful
 
 ```{r, echo = FALSE}
 knitr::include_graphics("/img/blogs/LBS_pictureVance.jpeg",error=FALSE)
@@ -69,4 +73,4 @@ Many people would not expect my passion for visual art and painting as a busines
 knitr::include_graphics("/img/blogs/family.jpeg",error=FALSE)
 ```
 
-I have two younger brothers (2003 and 2008) that I get along very well with! My family live together in Amsterdam (although my middle brother with a friend since he's studying at the University of Amsterdam). He, my middle brother, is called Beer and is actually the Dutch National Champion U20 for the 800m. This summer he went to Cali, Colombia for the U20 Track and Field World Championships. At 1 hour 51 min on [this](https://www.youtube.com/watch?v=399abdCsj4M&t=6667s) YouTube link you can see his race! My smallest brother has a very entrepreneurial mindset as well since he started his own drop shipping business at the age of 15. He sells sticky tape for surfboards. Check out his [website](https://surfnripnl.nl/)!
+I have two younger brothers (2003 and 2008) that I get along very well with! My family live together in Amsterdam (although my middle brother with a friend since he's studying at the University of Amsterdam). He, my middle brother, is called Beer and is actually the Dutch National Champion U20 on 800 meters. This summer he went to Cali, Colombia for the U20 Track and Field World Championships. At 1 hour 51 min on [this](https://www.youtube.com/watch?v=399abdCsj4M&t=6667s) YouTube link you can see his race! My smallest brother has a very entrepreneurial mindset as well since he started his own drop shipping business at the age of 15. He sells sticky tape for surfboards. Check out his [website](https://surfnripnl.nl/)!

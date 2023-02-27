@@ -3,7 +3,7 @@ categories:
 - ""
 - ""
 date: "2023-02-22"
-description: Showcasing some of my art works
+description: Showcasing some of my Artworks
 draft: false
 image:
 keywords: ""
@@ -11,16 +11,16 @@ slug: art_page
 title: Welcome to the Display of my Creative Abilities
 ---
 
-# Before deepdiving into technical data science projects, feel free to look at my creative side!
+## Before deepdiving into technical data science projects, feel free to look at my creative side!
 
-{{< figure src="/img/blogs/color_painting.jpeg" title="LBS Picture" >}}
-
+```{r, echo = FALSE}
+knitr::include_graphics("/img/blogs/color_painting.jpeg",error=FALSE)
+```
 ### The above artwork is probably my favorite because I took a very unonventional approach by making the canvas 3D. It also turned out better than I had envisioned.
 
 ```{r, echo = FALSE}
 knitr::include_graphics("/img/blogs/making_painting.jpeg",error=FALSE)
 ```
-
 
 ### This was my mothers day present
 
@@ -29,7 +29,7 @@ knitr::include_graphics("/img/blogs/tiger.jpeg",error=FALSE)
 ```
 
 
-### Portrait depicting myself as Leonardo DiCaprio in the great Gatsby...
+### Portrait depicting myself as Leonardo DiCaprio in the Great Gatsby...
 
 ```{r, echo = FALSE}
 knitr::include_graphics("/img/blogs/portrait.JPG",error=FALSE)
