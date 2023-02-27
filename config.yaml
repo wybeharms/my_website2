@@ -89,12 +89,12 @@ params:
         url: blogs/about_me
         
       - image: MAMv2.jpg
-        subtitle: Learn more about the serious side of Wybe
+        subtitle: Learn more about the Serious Side of Wybe
         title: Academic and Professional Experiences
         url: blogs/professional_page
         
       - image: portrait.JPG
-        subtitle: Showcasing some of my older paintings
+        subtitle: Have a look at my Creative Side!
         title: My Online Art Exhibition
         url: blogs/art_page
         

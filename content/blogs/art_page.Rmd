@@ -5,11 +5,15 @@ categories:
 date: "2023-02-22"
 description: Showcasing some of my art works
 draft: false
-image: color_painting.jpeg
+image:
 keywords: ""
 slug: art_page
-title: Professional and Academic Experiences
+title: Welcome to the Display of my Creative Abilities
 ---
+
+# Before deepdiving into technical data science projects, feel free to look at my creative side!
+
+{{< figure src="/img/blogs/color_painting.jpeg" title="LBS Picture" >}}
 
 ### The above artwork is probably my favorite because I took a very unonventional approach by making the canvas 3D. It also turned out better than I had envisioned.
 
@@ -18,7 +22,7 @@ knitr::include_graphics("/img/blogs/making_painting.jpeg",error=FALSE)
 ```
 
 
-### This was my monthers day present
+### This was my mothers day present
 
 ```{r, echo = FALSE}
 knitr::include_graphics("/img/blogs/tiger.jpeg",error=FALSE)

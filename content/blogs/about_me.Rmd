@@ -39,7 +39,7 @@ knitr::include_graphics("/img/blogs/Esade_first_year.jpeg",error=FALSE)
 
 ## Everything's BIGGER in Texas
 
-In my forth and final year of my bachelor's degree I was fortunate enough to go on exchange in the midst of the pandemic. Out of the 25 exchange school in the US, only 3 accepted exchange students, of which [The University of Texas](https://www.utexas.edu/) was one. It was always a dream of mine to study in the US, not only to experience "collage life", but also because the American culture of working hard and creating opportunities appeals to me. It was here that I took an Introduction to Python course that I enjoyed a lot, prompting me to have a closer look at what coding and data really means.
+In my forth and final year of my bachelor's degree I was fortunate enough to go on exchange in the midst of the pandemic. Out of the 25 exchange school in the US, only 3 accepted exchange students, of which [The University of Texas](https://www.utexas.edu/) was one. It was always a dream of mine to study in the US, not only to experience "college life", but also because the American culture of working hard and creating opportunities appeals to me. It was here that I took an Introduction to Python course that I enjoyed a lot, prompting me to have a closer look at what coding and data really means.
 
 ```{r, echo = FALSE}
 knitr::include_graphics("/img/blogs/Texas_group.jpeg",error=FALSE)
@@ -59,7 +59,7 @@ knitr::include_graphics("/img/blogs/LBS_pictureVance.jpeg",error=FALSE)
 
 I was fortunate enough to be admitted and have thus far had a really great time in London and at LBS. For me this program was the perfect intersection between deep level data analytics and business applications. My classmates are all very talented with most of them having a technical background with for example electrical engineering or computer science degrees. This has allowed me to learn a tremendous amount from them! In terms of non-academic activities, I joined the ExCo of the [Investment Management Club](https://lbs-imc.com/about-us/) because of my passion for the stock market. Here I run the website and more importantly led the restructuring of the £750,000 fund. We simplified the asset classes to only equities and fixed-income and introducing a fixed weight of 5% for each position added. Lastly, I write bi-weekly newsletters about interesting and under-appreciated topics, often in collaboration with experts in their respective fields. 
 
-Here is an example of a newsletter I wrote: [IMC Newsletter January 2023](https://www.dropbox.com/s/a60zk2fosmm2fjh/Newsletter%20Jan%202023.pdf?dl=0)
+Here is an example of a newsletter I wrote: [IMC Newsletter January 2023](https://www.dropbox.com/s/a60zk2fosmm2fjh/Newsletter%20Jan%202023.pdf?raw=0)
 
 ## More to discover
 
@@ -69,4 +69,4 @@ Many people would not expect my passion for visual art and painting as a busines
 knitr::include_graphics("/img/blogs/family.jpeg",error=FALSE)
 ```
 
-I have two younger brothers (2003 and 2008) that I get along very well with! My family live together in Amsterdam (although my middle brother with a friend since he's studying at the University of Amsterdam). He, my middle brother, is called Beer and is actually the Dutch National Champion U20 for the 800m. This summer he went to Cali, Colombia for the U20 Track and Field World Championships. On [this](https://www.youtube.com/watch?v=399abdCsj4M&t=6667s) YouTube link you can see his race at 1 hour 51 min!
+I have two younger brothers (2003 and 2008) that I get along very well with! My family live together in Amsterdam (although my middle brother with a friend since he's studying at the University of Amsterdam). He, my middle brother, is called Beer and is actually the Dutch National Champion U20 for the 800m. This summer he went to Cali, Colombia for the U20 Track and Field World Championships. At 1 hour 51 min on [this](https://www.youtube.com/watch?v=399abdCsj4M&t=6667s) YouTube link you can see his race! My smallest brother has a very entrepreneurial mindset as well since he started his own drop shipping business at the age of 15. He sells sticky tape for surfboards. Check out his [website](surfnripnl.nl)!
