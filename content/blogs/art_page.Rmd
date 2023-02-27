@@ -16,6 +16,7 @@ title: Welcome to the Display of my Creative Abilities
 ```{r, echo = FALSE}
 knitr::include_graphics("/img/blogs/color_painting.jpeg",error=FALSE)
 ```
+
 ### The above artwork is probably my favorite because I took a very unonventional approach by making the canvas 3D. It also turned out better than I had envisioned.
 
 ```{r, echo = FALSE}
