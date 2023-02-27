@@ -11,8 +11,6 @@ slug: professional_page
 title: Professional and Academic Experiences
 ---
 
-# Here I'd like to share some relevant projects, experiences and activities
-
 If you would like a more comprehensive summary of my experiences, please download my [CV here](https://www.dropbox.com/s/6bqwts1srmo7t4c/Christiaan%20Wybe%20Harms%20Resume.pdf?raw=1), otherwise feel free to stick around!
 
 ```{r, echo = FALSE}
@@ -30,43 +28,43 @@ The Masters in Analytics and Management combines detailed data analytics knowled
 * **Technical Subjects taught in *R*:**
 
 *Applied Statistics*
-+ Covered the fundamentals of descriptive statistics such as probability distributions, variability, central limit theorem, data types and simple regressions.
+  + Covered the fundamentals of descriptive statistics such as probability distributions, variability, central limit theorem, data types and simple regressions.
     
 *Data Science*
-+ Exposed to predictive analytics by reviewing parametric and non-parametric models such as linear and logistic regressions, lasso, KNN, and regression trees. Ultimately we combined all these models using ensemble methods and fine tuned the hyper parameters, did feature engineering and assessed the models.
+  + Exposed to predictive analytics by reviewing parametric and non-parametric models such as linear and logistic regressions, lasso, KNN, and regression trees. Ultimately we combined all these models using ensemble methods and fine tuned the hyper parameters, did feature engineering and assessed the models.
     
 *Machine Learning*
-+ Evaluated supervised and unsupervised learning algorithms. Built memory-based and model-based recommendation systems, covered PCA and LDA, Support Vector Machines, and analyzed documents by means of text mining. Furthermore, we built a range of Neural Networks such as ANN, RNN, LSTM and CNN. On the main page you can have a look at a practical case I worked on where I combined many models to recommend movies to users and predict their ratings.
+  + Evaluated supervised and unsupervised learning algorithms. Built memory-based and model-based recommendation systems, covered PCA and LDA, Support Vector Machines, and analyzed documents by means of text mining. Furthermore, we built a range of Neural Networks such as ANN, RNN, LSTM and CNN. On the main page you can have a look at a practical case I worked on where I combined many models to recommend movies to users and predict their ratings.
 
 * **Technical Subjects taught in *Python*: ** 
 
 *Introduction to Python*
-+ Although "introduction" sounds basic, we quickly delved into web scraping, broadcasting and linear algebra. By studying the latter I learnt about Gaussian elimination, ranks, spaces and sub-spaces, inverse matrices, consistent matrices and eigenvalues.
+  + Although "introduction" sounds basic, we quickly delved into web scraping, broadcasting and linear algebra. By studying the latter I learnt about Gaussian elimination, ranks, spaces and sub-spaces, inverse matrices, consistent matrices and eigenvalues.
   
 *Decision Analytics and Modeling*
-+ Having covered descriptive and predictive analytics, in this course we applied prescriptive analytics to provide useful insights. Using the Gurobi solver, we solved Linear Programming problems using both binary and integer variables.
+  + Having covered descriptive and predictive analytics, in this course we applied prescriptive analytics to provide useful   insights. Using the Gurobi solver, we solved Linear Programming problems using both binary and integer variables.
 
 * **Business Subjects:**
 
 *Operations Management*
-+ Applying numerical concepts like the Queuing model, capacity utilization and build-up diagrams on practical case studies.
+  + Applying numerical concepts like the Queuing model, capacity utilization and build-up diagrams on practical case studies.
     
 *Managerial Accounting*
-+ Reviewing fundamental financial and accounting methods and analyzing financial statements using CapitalIQ and FactSet.
+  + Reviewing fundamental financial and accounting methods and analyzing financial statements using CapitalIQ and FactSet.
     
 *Strategy Analytics*
-+ Using big data analysis and AI tools such as topic modeling and similarity analysis in strategic decision making.
-    
+  + Using big data analysis and AI tools such as topic modeling and similarity analysis in strategic decision making.
+
 *Economics of the Marketplace*
-+ Reviewed basic economics principles. Dove into markets with friction by looking at how network effects, pricing and WTA dynamics form platform mediated networks.
+  + Reviewed basic economics principles. Dove into markets with friction by looking at how network effects, pricing and WTA dynamics form platform mediated networks.
 
 **Other activities at LBS include:**
 
 *London LAB* - a live 10-week business project
-+ To be done
+  + To be done
  
 *Investment Management Club*
-+ Together with a Master in Finance Student we restructured the Student Investment Fund. This fund became rather idle during the pandemic with many old positions included that no one was covering. We set out to divide the fund according to a strategic asset allocation where 75% is invested in equities (MSCI by default, otherwise in stocks that were pitched to the committee and are covered by the respective analyst that pitched it) and 25% in fixed income (US Treasury). I pitched [BMW](https://www.linkedin.com/feed/update/urn:li:activity:7032676604132655104/?actorCompanyId=68521920) (I'm not a car guy at all ;) which we added to the fund in March 2023!
+  + Together with a Master in Finance Student we restructured the Student Investment Fund. This fund became rather idle during the pandemic with many old positions included that no one was covering. We set out to divide the fund according to a strategic asset allocation where 75% is invested in equities (MSCI by default, otherwise in stocks that were pitched to the committee and are covered by the respective analyst that pitched it) and 25% in fixed income (US Treasury). I pitched [BMW](https://www.linkedin.com/feed/update/urn:li:activity:7032676604132655104/?actorCompanyId=68521920) (I'm not a car guy at all ;) which we added to the fund in March 2023!
   
 ```{r, echo = FALSE}
 knitr::include_graphics("/img/blogs/BMW_pitch.jpeg",error=FALSE)
@@ -98,7 +96,7 @@ For my mandatory internship I joined Holland's third largest bank, **ABN Amro**,
 knitr::include_graphics("/img/blogs/crisp.jpeg",error=FALSE)
 ```
 
-My first internship was in the summer of 2020 at **Crisp**, an online supermarket founded the year before. The pandemic restrictions contributed to the massive expansion of this young company, which focused on higher quality and locally sourced products. The logistics included inbound logistics, goods arriving at the warehouse which was often the responsibility of the suppliers, and outbound logistics, delivering the supermarket boxes to the end consumer. When I joined in June 2020, the latter was outsourced to delivery drivers who would arrive at the warehouse during the end of the day and then drive an assigned route to deliver all the packages. This was highly inefficient because drivers had different cars, weren't trained, and generally had to drive long distances (for Dutch standards:). My time at Crisp was primarily centered around bringing the last-lime delivery in-house together with two colleagues. We introduced new electric vans that had much more capacity, were standardized and driven by drivers hired directly by Crisp. We had to align with the warehouse activities to ensure that boxes were packaged correctly and properly put in the vans. To conclude, despite the internship being only two months, the great company culture and enthusiastic colleagues made me feel like being truly part of the Crisp team. The company went on to raise over 75 million from impressive investors and continued its growth trend capturing a solid market share in the online grocery market. 
+My first internship was in the summer of 2020 at **Crisp**, an online supermarket founded the year before. The pandemic restrictions contributed to the massive expansion of this young company, which focused on higher quality and locally sourced products. The logistics included inbound logistics, goods arriving at the warehouse which was often the responsibility of the suppliers, and outbound logistics, delivering the supermarket boxes to the end consumer. When I joined in June 2020, the latter was outsourced to delivery drivers who would arrive at the warehouse during the end of the day and then drive an assigned route to deliver all the packages. This was highly inefficient because drivers had different cars, weren't trained, and generally had to drive long distances (for Dutch standards:). My time at Crisp was primarily centered around bringing the last-lime delivery in-house together with two colleagues. We introduced new electric vans that had much more capacity, were standardized and driven by drivers hired directly by Crisp. We had to align with the warehouse activities to ensure that boxes were packaged correctly and properly put in the vans. To conclude, despite the internship being only two months, the great company culture and enthusiastic colleagues made me feel like being truly part of the Crisp team. The company went on to raise over 75 million from notable investors and continued its growth trend by capturing a solid market share in the Dutch online grocery market. 
 
 
 

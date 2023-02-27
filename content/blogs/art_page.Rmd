@@ -11,19 +11,19 @@ slug: art_page
 title: Welcome to the Display of my Creative Abilities
 ---
 
-## Before deepdiving into technical data science projects, feel free to look at my creative side!
+Many people would not expect my passion for visual art and painting as a business student. However, since I was a kid I enjoy making art works. The last couple of years I have not been too active as an artist, although I am planning to pick it up in the near future as my head is filling up with ideas for different paintings. Have a look at some of my old works!
 
 ```{r, echo = FALSE}
 knitr::include_graphics("/img/blogs/color_painting.jpeg",error=FALSE)
 ```
 
-### The above artwork is probably my favorite because I took a very unonventional approach by making the canvas 3D. It also turned out better than I had envisioned.
+### The above artwork is probably my favorite because I took a very unconventional approach by making the canvas 3D (this was much hard than I anticipated...)
 
 ```{r, echo = FALSE}
 knitr::include_graphics("/img/blogs/making_painting.jpeg",error=FALSE)
 ```
 
-### This was my mothers day present
+### This was my mothers day present!
 
 ```{r, echo = FALSE}
 knitr::include_graphics("/img/blogs/tiger.jpeg",error=FALSE)
@@ -35,3 +35,5 @@ knitr::include_graphics("/img/blogs/tiger.jpeg",error=FALSE)
 ```{r, echo = FALSE}
 knitr::include_graphics("/img/blogs/portrait.JPG",error=FALSE)
 ```
+
+More to come!

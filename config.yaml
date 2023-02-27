@@ -99,7 +99,7 @@ params:
         url: blogs/art_page
         
       - image: bank_of_london.jpeg
-        subtitle: Was there discrimination at Bank of London
-        title: Bank of London
+        subtitle: t-test hypothesis. Level = Basic
+        title: Comparing default rates 
         url: blogs/bank_of_london
 
