@@ -5,7 +5,7 @@ theme: forty
 googleAnalytics: ''
 disqusShortname: ''
 params:
-  banner:
+  banner: banner.jpeg
     buttonText: Get Started
     subtitle: |-
       My name is Wybe Harms and I am currently pursuing a Masters in Analytics 
