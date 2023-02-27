@@ -5,7 +5,7 @@ theme: forty
 googleAnalytics: ''
 disqusShortname: ''
 params:
-  banner: "/Users/wybeharms/Desktop/LBS/Applied Stats with R/my_website2/themes/forty/static/img/banner.jpeg"
+  banner:
     buttonText: Get Started
     subtitle: |-
       My name is Wybe Harms and I am currently pursuing a Masters in Analytics 
