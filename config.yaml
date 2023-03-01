@@ -98,8 +98,8 @@ params:
         title: My Online Art Exhibition
         url: blogs/art_page
         
-      - image: bank_of_london.jpeg
-        subtitle: t-test hypothesis. Level = Basic
-        title: Comparing default rates 
-        url: blogs/bank_of_london
+      - image: data_science_background.jpeg
+        subtitle: Some Data Science Projects
+        title: Analytics Projects
+        url: blogs/my_projects
 
