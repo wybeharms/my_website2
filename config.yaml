@@ -10,7 +10,7 @@ params:
     subtitle: |-
       Currently I am reading for my Masters in Analytics at London Business School. Feel free to explore this page 
       where you can learn more about me and my work.
-    title: Hi there! I'm Wybe and Welcome to my Website!
+    title: Hi! I'm Wybe and Welcome to my Website!
   blog: {}
   contact: 
     address:
@@ -97,6 +97,11 @@ params:
         subtitle: Have a look at my Creative Side!
         title: My Online Art Exhibition
         url: blogs/art_page
+        
+      - image: logit.jpg
+        subtitle: Predicting the best loans to invest in
+        title: Classification using Logistic Regression
+        url: blogs/LogisticWorkshopforWebsite
         
       - image: data_science_background.jpeg
         subtitle: Using actual Police Stop and Search data to create insightful visuals
