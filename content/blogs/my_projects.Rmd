@@ -53,18 +53,22 @@ Built multiple predictive models to predict the price of a given property. Compa
 knitr::include_graphics("/img/blogs/text_mining.png",error=FALSE)
 ```
 
+1. Recommendation Systems
 Cleaning, inspecting and exploring a large data set (25 million rows) on movie ratings. Used a 2% of data to build and compare 3 collaborative filtering based recommendation models
 
 [Recommendation Systems](https://www.dropbox.com/s/cxgsurq8uhwzucl/wybe_part1.html?raw=0)
 
+2. Text Mining
 Using the data from movie ratings, I performed text mining and PCA on the tags given for each rating 
 
 [Text Mining](https://www.dropbox.com/s/0hw85sxcivsoegk/part2_wybe--1-.html?raw=0)
 
+3. Support Vector Machines
 Next, I used the first 10 columns returned by the PCA calculated before to train and test an SVM model to classify ratings as being excellent or not
 
 [Support Vector Machines](https://www.dropbox.com/s/5uwfdr8iz67pw0u/part3_A_wybe.html?raw=0)
 
+4. Neural Networks
 Lastly, the PCA data was used as an input to an Artificial Neural Network (ANN)
 
 [Artificial Neural Network](https://www.dropbox.com/s/b82egekmxmmxafw/part3_B.html?raw=0)
