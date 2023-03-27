@@ -104,6 +104,6 @@ params:
         url: blogs/LogisticWorkshopforWebsite
         
       - image: data_science_background.jpeg
-        subtitle: Using actual Police Stop and Search data to create insightful visuals
+        subtitle: Using actual Police Stop and Search Data to create insightful visuals
         title: Data Visualisations
         url: blogs/problem_set_2_wybe
