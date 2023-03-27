@@ -1,0 +1,297 @@
+---
+title: "Visualising Police Data"
+author: "Wybe Harms"
+date: "2022-11-15"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, load libraries, echo=FALSE, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(ggmap)
+library(ggrepel)
+library(gridExtra)
+library(pander)
+library(here)
+library(janitor)
+library(skimr)
+library(tmap)
+library(tmaptools)
+library(mapview)
+library(vroom)
+library(sf)
+library(dplyr)
+library(knitr)
+library(ggThemeAssist)
+```
+
+# Three visuals on Stop and Search Rates in London between October 2019 and October 2022
+
+Every stop and search done by the police in London is recorded in the database. This information is free for the public to download from: [UK Police](https://data.police.uk/data/), and contains information on the date, place, ethnicity, reason for search, gender, age and several more details. In this file we will visualize three easy-to-read graphs that communicate some interesting information to the viewer.
+
+## Load Data
+
+```{r, load data}
+data_dir <- "data/stop_search_oct2019_sept2022"
+
+files <- fs::dir_ls(path = data_dir, regexp = "\\.csv$", recurse = TRUE) 
+stop_search_data <- vroom(files, id = "source") #reads all the files in one time
+
+# clean column names and change to correct data types 
+stop_search_all <- stop_search_data %>%
+  janitor::clean_names() %>% 
+  mutate(month = month(date),
+         month_name = month(date, label=TRUE, abbr = TRUE),
+         year= year(date),
+         month_year = paste0(year, "-",month_name)
+  ) %>% 
+  
+# rename longitude/latitude to lng/lat
+rename(lng = longitude,
+       lat = latitude)
+
+#Remove empty columns
+stop_search_all <- stop_search_all%>%
+  select(-policing_operation, -outcome_linked_to_object_of_search, -removal_of_more_than_just_outer_clothing)
+```
+
+## Segment, order and clean data
+
+```{r, continue cleaning}
+which_searches <- c("Controlled drugs", "Offensive weapons","Stolen goods" )
+which_ages <- c("10-17", "18-24","25-34", "over 34")
+which_ethnicity <- c("White", "Black", "Asian", "Other")
+
+stop_search_offence <- stop_search_all %>% 
+  
+  # filter out those stop-and-search where no further action was taken
+  filter(outcome != "A no further action disposal") %>% 
+  
+  #filter out those rows with no latitude/longitude
+  drop_na(lng,lat) %>% 
+  
+  # concentrate in top searches, age_ranges, and officer defined ethnicity
+  filter(age_range %in% which_ages) %>% 
+  filter(officer_defined_ethnicity %in% which_ethnicity) %>% 
+  
+  # re-level factors so everything appears in correct order
+  mutate(
+    object_of_search = fct_relevel(object_of_search, 
+                                   c("Controlled drugs", "Offensive weapons","Stolen goods")), 
+    age_range = fct_relevel(age_range, 
+                            c("10-17", "18-24", "25-34", "over 34"))
+  )
+```
+
+## Correctly format coordinates
+
+```{r, makt it a shape file}
+# make it a shape file using WGS84 lng/lat coordinates
+stop_search_offence_sf <-  st_as_sf(stop_search_offence, 
+                              coords=c('lng', 'lat'), 
+                              crs = 4326)
+
+#Check is geometry makes sense
+stop_search_offence_sf$geometry
+```
+
+## Load coordinates of London Wards
+
+```{r, london wards file}
+london_wards_sf <- read_sf(here("data/London-wards-2018_ESRI/London_Ward.shp"))
+
+london_wgs84 <-  london_wards_sf %>% 
+  st_transform(4326)%>%
+  janitor::clean_names()
+
+london_wgs84 <- london_wgs84 %>%
+  mutate(count = lengths(st_contains(london_wgs84, 
+                stop_search_offence_sf)),
+         per_sq_km = round(count/(hectares/100),2))
+
+london_wgs84%>%
+  slice_max(order_by = count, n = 5)%>%
+  select(name,count)
+#two wards with highest populations are: West End (1484) and St James (1250)
+
+london_wgs84%>%
+  slice_max(order_by = per_sq_km, n = 5)%>%
+  select(name,per_sq_km)
+#West End, North Walworth, Abbey, Dalston, St. Peter's all have more than 1000 stop and searches per sq km
+```
+
+# First Map: Concentration of Stop and Search's in London
+
+```{r, initial map}
+ggplot(data = london_wgs84, aes(fill = per_sq_km)) +
+   geom_sf() +
+   scale_fill_gradient(low = "#e5f5f9", high = "#e41a1c") + theme(panel.grid.major = element_line(linetype = "blank"),
+    panel.background = element_rect(fill = "gray100",
+        size = 0.1))+
+  ylab("")+
+  xlab("")+
+  labs(title = "Differences in S&S for each Ward in London",
+       subtitle = "S&S Rates per Square Km between Oct 2019 to Oct 2022")+
+  guides(fill=guide_legend(title="Number of S&S")) + theme(plot.subtitle = element_text(family = "serif"),
+    plot.title = element_text(family = "serif",
+        size = 15, face = "bold"), legend.title = element_text(size = 10,
+        family = "serif"))+
+  geom_curve(xend = -0.14, 
+             yend = 51.515,
+             x = 0.21, 
+             y = 51.67,
+             curvature = 0.1, 
+             arrow = arrow(length = unit(0.2, "cm")))+
+  geom_label(aes(x=0.22, y=51.68, label = "West End: Most S&S/km2 at 1264"), 
+             size = 2.2,
+             position=position_dodge(width = 0.5))+
+  labs(caption = "Source: https://data.police.uk")
+
+```
+
+## Correcting for missing values in June 2022
+
+It seems like data is missing for the month of June 2022 where stop and search was only about 3 for each ethnicity versus an average of more than 1000. Here we first created the dataframe needed for the graph, then created a second dataframe with the average stop and search for each ethnicity of May and July (the months before and after June). Lastly we changed the wrong values of the original dataframe by substituting them with the averages calculated in the second dataframe. 
+
+```{r, correct for missing June 2022 values}
+st1 <- stop_search_offence%>%
+  filter(month_year != "2019-Sep") %>% 
+  group_by(month_year)%>%
+  count(officer_defined_ethnicity) %>% 
+  mutate(month_year = as.Date(parse_date_time(month_year, "ym")))
+
+average_for_june <- stop_search_offence %>% 
+  filter(month_year == c("2022-May","2022-Jul")) %>% 
+  group_by(officer_defined_ethnicity) %>% 
+  count(officer_defined_ethnicity) %>% 
+  mutate(n = as.integer(n))
+
+st1[129, 3] = average_for_june$n[1]
+st1[130, 3] = average_for_june$n[2]
+st1[131, 3] = average_for_june$n[4]
+```
+
+# Second Graph: Stop and Search for each Ethnicity
+
+The first two chunks of code create two very basic dataframes (one for White and one for the other ethnicity because the white text needs to be above the curve) that contain the Sept 2022 as a date, each ethnicity and a value of n corresponding to the actual value of n at that time. We then use these dataframes in geom_text to add the ethnicity next to each line. This greatly improves readability. 
+
+```{r, second graph}
+month_year <- c("2022-09-01", "2022-09-01", "2022-09-01")
+officer_defined_ethnicity <- c("Black", "Asian", "Other")
+n <- c("1181", "509", "166")
+df <- data.frame(month_year, officer_defined_ethnicity, n)
+
+month_year_white <- c("2022-09-01")
+officer_defined_ethnicity_white <- c("White")
+n_white <- c("1329")
+dfwhite <- data.frame(month_year, officer_defined_ethnicity, n)
+
+st1 %>% 
+  ggplot(aes(x=month_year, y = n, color = officer_defined_ethnicity))+
+  geom_line() +
+  annotate("rect", 
+    xmin = as.Date("2020-03-01", "%Y-%m-%d"), 
+    xmax = as.Date("2020-07-01", "%Y-%m-%d"),
+    ymin = 0, 
+    ymax = 3000,
+    alpha = 0.1,
+    fill = "black") +
+  
+  theme(panel.grid.major = element_line(colour = "gray95"),
+    panel.grid.minor = element_line(linetype = "blank"),
+    plot.title = element_text(size = 15),
+    panel.background = element_rect(fill = "gray98",
+        size = 1.4)) +
+  labs(title = "Stable and Constant Stop and Search (S&S) Rates per Ethnicity",
+    x = "Year", y = "Number of S&S per Month",
+    colour = "Ethnicity", subtitle = "Spike in S&S Around Beginning 2020. Sharp Drop in the Summer of 2022",
+    caption = "Source: https://data.police.uk")+
+  
+  geom_curve(xend = as.Date("2020-07-01", "%Y-%m-%d"), 
+             yend = 2350,
+             x = as.Date("2020-09-01", "%Y-%m-%d"), 
+             y = 2700,
+             curvature = 0.1, 
+             color = "#999999",
+             size = 0.3,
+             arrow = arrow(length = unit(0.15, "cm")))+
+    geom_label(aes(x=as.Date("2020-12-01", "%Y-%m-%d"), 
+                   y=2700, 
+                   label = "First COVID-19 lockdown"), size = 2.2,
+               position=position_dodge(width = 0.9))+
+  geom_text(data = df,
+    aes(label = officer_defined_ethnicity, x = as.Date("2022-09-01", "%Y-%m-%d"), y = as.numeric(n) -70),
+    color = "#525252",check_overlap = TRUE, 
+    size = 3,
+    hjust = 1
+  )+
+  geom_text(data = dfwhite,
+    aes(label = officer_defined_ethnicity_white, x = as.Date("2022-09-01", "%Y-%m-%d"), y = as.numeric(n_white) +600),
+    color = "#525252",check_overlap = TRUE, 
+    size = 3,
+    hjust = 1
+  )
+
+```
+
+# Third graph: Fireworks Rule on Nov 5th
+
+For the last graph we look at an interesting occurance, mainly the spike in firework searches around Nov 5th, Gay Fawkes Night. 
+
+```{r, third graph}
+library(zoo)
+which_objects_of_search = c("Evidence of offences under the Act", "Offensive weapons", "Firearms", "Fireworks")
+my_colours = c("#ddd3cc", "#d9d6fe", "#cffce3", "#f763f5")
+
+
+st3 <- stop_search_offence %>% 
+  filter(object_of_search %in% which_objects_of_search) %>% 
+  mutate(date = format(as.POSIXct(date,
+                           format = '%Y/%m/%d %H:%M:%S'),
+                format = '%Y/%m/%d'),
+         date = as.Date(date)) %>%
+  filter(date < "2022-06-01") %>% 
+  group_by(date, object_of_search) %>% 
+  count(object_of_search)%>% 
+  ungroup(date) %>% 
+  mutate(rolling_avg = rollmean(n, k = 7, fill = NA, align = "center"),
+          fireworks = ifelse(object_of_search == "Fireworks", TRUE, FALSE)) %>% 
+  drop_na()
+
+ggplot(st3, aes(x=date, y = rolling_avg, group = object_of_search, color =object_of_search))+
+   geom_line() +
+  scale_color_manual(values = my_colours) + theme(plot.subtitle = element_text(size = 11),
+    plot.caption = element_text(size = 11),
+    plot.title = element_text(size = 15)) +labs(title = "'Cause baby, you're a Firework!",
+    subtitle = "Guy Fawkes Night (Nov 5th) Shows a Clear Spike in Firework Searches",
+    caption = "Source: https://data.police.uk/") + theme(legend.position = "top", legend.direction = "horizontal") + theme(panel.grid.minor = element_line(linetype = "blank"),
+    panel.background = element_rect(fill = "gray98"),
+    legend.position = "bottom")+
+  xlab("Year")+
+  ylab("Weekly Rolling Avg")+
+  labs(color = "Reason for Search:") + theme(axis.title = element_text(size = 9),
+    axis.text = element_text(size = 8), axis.text.x = element_text(size = 7))
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

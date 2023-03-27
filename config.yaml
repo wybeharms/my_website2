@@ -99,7 +99,7 @@ params:
         url: blogs/art_page
         
       - image: data_science_background.jpeg
-        subtitle: Data Visualisations
-        title: Analytics Projects
+        subtitle: Using actual Police Stop and Search data to create insightful visuals
+        title: Data Visualisations
         url: blogs/problem_set_2_wybe
 
