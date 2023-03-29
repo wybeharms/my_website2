@@ -8,7 +8,7 @@ draft: false
 image: ""
 keywords: ""
 slug: linear_program_oil
-title: Using Gurobi Solver to determine optimze UK's Oil Imports
+title: Using Gurobi Solver to Optimze UK's Oil Imports
 ---
 
 ### Introduction
@@ -62,6 +62,105 @@ Next, we proceed to add include *Nigeria* and *the US* to our model, which expor
 ```{r, echo = FALSE}
 knitr::include_graphics("/img/blogs/tankers.png",error=FALSE)
 ```
+
+This is the Python code used to run the Complex Model:
+
+def complex_model(countries, maxProduction, days_ship, cost, lb_set, ub_set, countries_list_pipes, countries_list_ships, uk_demand, us_or_russia):
+
+    print(countries_list_pipes)
+    print(countries_list_ships)
+    
+  #Define the piecewise linear cost function
+    def printSolution(m):
+        '''
+        A best practice is to define a function that prints the solution of the model (if it's not too big to display)
+        '''
+        if m.status == GRB.OPTIMAL:
+            print('\nTotal cost: %g' % m.objVal)
+            print('\nQuantity:')
+            for c in countries:
+                print('%s %g' % (c, quantity[c].x))
+                # %s means that the first argument printed is a string
+                # %g means that the second argument printed is a real number
+                # You can print as many variables as you wish
+                # E.g., "%s %s %g % (a,b,c)" will print two strings a and b followed by the number c
+        else:
+            print('No solution')
+
+    pieces_list = ['piece A','piece B']
+    piecewise_price = {('Norway', 'piece A'): [2.06, 0, 0.4],
+                    ('Norway', 'piece B'): [1.06, 0.4, 18.4],
+                    ('Libya', 'piece A'): [1.09 , 0, 0.792],
+                    ('Libya', 'piece B'): [0.09, 0.792, 14.6],
+                    ('Russia', 'piece A'): [1.14, 0, 0.558],
+                    ('Russia', 'piece B'): [0.07, 0.558, 49.1],
+                    ('Algeria', 'piece A'): [1.33, 0, 0.931],
+                    ('Algeria', 'piece B'): [0.40, 0.931, 5.07]
+                       }
+
+    # Now we develop a linear program that optimizes UK's energy cost under linear piecewise cost models of export countries.
+
+    # Create the piecewise model
+    m2 = gp.Model("oil_piecewise")
+
+    # Set decision variables
+    quantity = m2.addVars(countries, name = "quantity")
+
+    #Adding contraints of production of export countries and constraint of UK's energy demand
+    for c in countries:
+        m2.addConstr(quantity[c]<=maxProduction[c], "Maximum_capacity" +c)
+        
+    for c in countries:
+        m2.addConstr(quantity[c] >= lb_set[c], "Lower_bound" +c)
+    
+    for c in countries:
+        m2.addConstr(quantity[c] <= ub_set[c], "Upper_bound" +c)
+
+    m2.addConstr(quicksum(quantity[c] for c in countries) >= uk_demand)
+
+    # For several of the countries, oil becomes cheaper as more is bought, as such, we must add extra constraints to ensure that piece A of the model is filled before piece B is.
+
+    # Add auxiliary variable. This variable sets an upper bound for each decision variable
+    ub = {(c,p) : (piecewise_price[c,p][2] - piecewise_price[c,p][1]) for c in countries_list_pipes for p in pieces_list}
+
+    auxiliary = m2.addVars(countries_list_pipes, pieces_list, lb = 0, ub = ub, name="auxiliary")
+
+    # to the total allocation for each country
+    coupling_constraints = m2.addConstrs((
+        quicksum(auxiliary[c,p] for p in pieces_list) == quantity[c]
+                                         for c in countries_list_pipes),"coupling constraint")
+
+    #add auxiliary variable for is piece A fully allocated
+    is_piece_A_full = m2.addVars(countries_list_pipes,vtype=GRB.BINARY,name="is_piece_A_full")
+
+    #add logic for if piece A is less than or equal to the ub-1, then is piece A full is 0, else it is 1
+    M=10000000000
+
+    for c in countries_list_pipes:
+        m2.addConstr(auxiliary[c,'piece A']<=piecewise_price[c,'piece A'][2]-0.01+M*is_piece_A_full[c],"piece_A_full_1")
+        m2.addConstr(auxiliary[c,'piece A']>=piecewise_price[c,'piece A'][2]-M*(1-is_piece_A_full[c]),"piece_A_full_2")
+        #add logic for if is_piece_A_full is 0, piece B must be equal to 0
+        m2.addConstr(auxiliary[c,'piece B']<=M*is_piece_A_full[c],"piece_A_full_3")
+
+    # We then extend the logic to include countries that only ship oil out via ships. In this case, these countries are Nigeria and the USA.
+
+    ships_list=['Ship A','Ship B','Ship C']
+    ships_capacity={'Ship A':[0.084,40/1000000],
+                    'Ship B':[0.0504,30/1000000],
+                    'Ship C':[0.0315,25/1000000]}
+
+    number_of_ship=m2.addVars(countries_list_ships,ships_list,lb=0,vtype=GRB.INTEGER,name="number_of_ships")
+
+    for c in countries_list_ships:
+        m2.addConstr(quantity[c]<=quicksum(number_of_ship[c,s]*ships_capacity[s][0] for s in ships_list))
+
+
+    m2.setObjective(
+         quicksum(auxiliary[c,p]*piecewise_price[c,p][0] for c in countries_list_pipes for p in pieces_list) +
+         quicksum(quantity[c]*cost[c] for c in countries_list_ships) +
+         quicksum(number_of_ship[c,s]*ships_capacity[s][1]*days_ship[c] for c in countries_list_ships for s in ships_list), GRB.MINIMIZE)
+
+
 Running our more realistic model with a piecewise function for the countries using pipelines and adding a variable cost to the countries using ships, it returned that everything should be allocated to Russia, with total costs amounting to $0.408 billion. However, importing everything from one country – and particularly Russia, given the political situation - is far from realistic. For this reason, we built a prototype such that one can input given constraints into the model. For example, one constraint could be to set the lower bound for imports from the US to be at least 3 billion gallons. 
 
 This is one example where we added realistic constraints:
