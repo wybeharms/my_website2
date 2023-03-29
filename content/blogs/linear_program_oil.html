@@ -32,6 +32,62 @@ For simplicity, we looked at the 6 largest oil exporters to the UK (they account
 Constraints:
 * Quantity should be less than or equal to the respective capacity of each country
 * Sum of quantity must be at least 13.6 billion (the demand for oil) Objective: minimize the total cost (quantity of each country x price)</p>
+<p>Python code that runs a function to solver the simple model:</p>
+<pre><code>def simple_model(countries, maxProduction, cost, lb_set, ub_set, uk_demand):
+
+m=gp.Model(&quot;oil&quot;)
+
+quantity = m.addVars(countries, name = &quot;quantity&quot;)
+
+for c in countries:
+    m.addConstr(quantity[c]&lt;=maxProduction[c], &quot;Maximum_capacity&quot; +c)
+
+for c in countries:
+    m.addConstr(quantity[c] &gt;= lb_set[c], &quot;Lower_bound&quot; +c)
+
+for c in countries:
+    m.addConstr(quantity[c] &lt;= ub_set[c], &quot;Upper_bound&quot; +c)
+
+m.addConstr(quicksum(quantity[c] for c in countries) &gt;= uk_demand)
+
+
+m.setObjective(quicksum(quantity[c]*cost[c] for c in countries), GRB.MINIMIZE)
+
+def printSolution(m):
+    &#39;&#39;&#39;
+    A best practice is to define a function that prints the solution of the model (if it&#39;s not too big to display)
+    &#39;&#39;&#39;
+    if m.status == GRB.OPTIMAL:
+        print(&#39;\nTotal cost: %g&#39; % m.objVal)
+        print(&#39;\nQuantity:&#39;)
+        for c in countries:
+            print(&#39;%s %g&#39; % (c, quantity[c].x))
+            # %s means that the first argument printed is a string
+            # %g means that the second argument printed is a real number
+            # You can print as many variables as you wish
+            # E.g., &quot;%s %s %g % (a,b,c)&quot; will print two strings a and b followed by the number c
+    else:
+        print(&#39;No solution&#39;)
+
+m.optimize()
+printSolution(m)
+out_quantity = {
+    &#39;Norway&#39;: 0,
+    &#39;USA&#39;: 0,
+    &#39;Libya&#39;:0,
+    &#39;Russia&#39;:0,
+    &#39;Nigeria&#39;:0,
+    &#39;Algeria&#39;:0}
+if m.status == GRB.OPTIMAL:
+    solution = True
+    total_cost = m.objVal
+    for c in countries:
+        out_quantity[c] = quantity[c].x
+else:
+    solution = False
+    total_cost = 0
+    
+return solution, total_cost, out_quantity</code></pre>
 <p>Running this very basic model we get an output where 100% of imports are allocated to one country, Libya for a total price of $0.272 billion. This is because Libya has the lowest price per gallon and can supply the total demand.</p>
 <p><strong>Complex Model</strong></p>
 <p>Adding a Piecewise Function:
@@ -51,26 +107,29 @@ Russia: we assume no fixed costs for the UK since this is paid fully by Russia</
 Next, we proceed to add include <em>Nigeria</em> and <em>the US</em> to our model, which export crude oil to the UK via oil tankers. The cost of chartering a ship can vary widely depending on the length of the voyage, as well as the type of tanker used in transport since this determines total capacity for transport. We identified three common oil tankers:</p>
 <p><img src="../../../../../../../../img/blogs/tankers.png" /><!-- --></p>
 <p>This is the Python code used to run the Complex Model:</p>
-<p>def complex_model(countries, maxProduction, days_ship, cost, lb_set, ub_set, countries_list_pipes, countries_list_ships, uk_demand, us_or_russia):</p>
-<pre><code>print(countries_list_pipes)
-print(countries_list_ships)</code></pre>
-<p>#Define the piecewise linear cost function
-def printSolution(m):
-’’’
-A best practice is to define a function that prints the solution of the model (if it’s not too big to display)
-’’’
-if m.status == GRB.OPTIMAL:
-print(‘cost: %g’ % m.objVal)
-print(‘:’)
-for c in countries:
-print(‘%s %g’ % (c, quantity[c].x))
-# %s means that the first argument printed is a string
-# %g means that the second argument printed is a real number
-# You can print as many variables as you wish
-# E.g., “%s %s %g % (a,b,c)” will print two strings a and b followed by the number c
-else:
-print(‘No solution’)</p>
-<pre><code>pieces_list = [&#39;piece A&#39;,&#39;piece B&#39;]
+<pre><code>def complex_model(countries, maxProduction, days_ship, cost, lb_set, ub_set, countries_list_pipes, countries_list_ships,  uk_demand, us_or_russia):
+
+print(countries_list_pipes)
+print(countries_list_ships)
+
+#Define the piecewise linear cost function
+  def printSolution(m):
+    &#39;&#39;&#39;
+    A best practice is to define a function that prints the solution of the model (if it&#39;s not too big to display)
+    &#39;&#39;&#39;
+    if m.status == GRB.OPTIMAL:
+        print(&#39;\nTotal cost: %g&#39; % m.objVal)
+        print(&#39;\nQuantity:&#39;)
+        for c in countries:
+            print(&#39;%s %g&#39; % (c, quantity[c].x))
+            # %s means that the first argument printed is a string
+            # %g means that the second argument printed is a real number
+            # You can print as many variables as you wish
+            # E.g., &quot;%s %s %g % (a,b,c)&quot; will print two strings a and b followed by the number c
+    else:
+        print(&#39;No solution&#39;)
+
+pieces_list = [&#39;piece A&#39;,&#39;piece B&#39;]
 piecewise_price = {(&#39;Norway&#39;, &#39;piece A&#39;): [2.06, 0, 0.4],
                 (&#39;Norway&#39;, &#39;piece B&#39;): [1.06, 0.4, 18.4],
                 (&#39;Libya&#39;, &#39;piece A&#39;): [1.09 , 0, 0.792],

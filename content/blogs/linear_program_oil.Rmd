@@ -36,6 +36,66 @@ Constraints:
 * Quantity should be less than or equal to the respective capacity of each country
 * Sum of quantity must be at least 13.6 billion (the demand for oil) Objective: minimize the total cost (quantity of each country x price)
 
+Python code that runs a function to solver the simple model:
+
+
+    def simple_model(countries, maxProduction, cost, lb_set, ub_set, uk_demand):
+    
+    m=gp.Model("oil")
+
+    quantity = m.addVars(countries, name = "quantity")
+
+    for c in countries:
+        m.addConstr(quantity[c]<=maxProduction[c], "Maximum_capacity" +c)
+    
+    for c in countries:
+        m.addConstr(quantity[c] >= lb_set[c], "Lower_bound" +c)
+    
+    for c in countries:
+        m.addConstr(quantity[c] <= ub_set[c], "Upper_bound" +c)
+
+    m.addConstr(quicksum(quantity[c] for c in countries) >= uk_demand)
+
+
+    m.setObjective(quicksum(quantity[c]*cost[c] for c in countries), GRB.MINIMIZE)
+    
+    def printSolution(m):
+        '''
+        A best practice is to define a function that prints the solution of the model (if it's not too big to display)
+        '''
+        if m.status == GRB.OPTIMAL:
+            print('\nTotal cost: %g' % m.objVal)
+            print('\nQuantity:')
+            for c in countries:
+                print('%s %g' % (c, quantity[c].x))
+                # %s means that the first argument printed is a string
+                # %g means that the second argument printed is a real number
+                # You can print as many variables as you wish
+                # E.g., "%s %s %g % (a,b,c)" will print two strings a and b followed by the number c
+        else:
+            print('No solution')
+
+    m.optimize()
+    printSolution(m)
+    out_quantity = {
+        'Norway': 0,
+        'USA': 0,
+        'Libya':0,
+        'Russia':0,
+        'Nigeria':0,
+        'Algeria':0}
+    if m.status == GRB.OPTIMAL:
+        solution = True
+        total_cost = m.objVal
+        for c in countries:
+            out_quantity[c] = quantity[c].x
+    else:
+        solution = False
+        total_cost = 0
+        
+    return solution, total_cost, out_quantity
+
+
 Running this very basic model we get an output where 100% of imports are allocated to one country, Libya for a total price of $0.272 billion. This is because Libya has the lowest price per gallon and can supply the total demand.
 
 **Complex Model**
@@ -65,13 +125,13 @@ knitr::include_graphics("/img/blogs/tankers.png",error=FALSE)
 
 This is the Python code used to run the Complex Model:
 
-def complex_model(countries, maxProduction, days_ship, cost, lb_set, ub_set, countries_list_pipes, countries_list_ships, uk_demand, us_or_russia):
+    def complex_model(countries, maxProduction, days_ship, cost, lb_set, ub_set, countries_list_pipes, countries_list_ships,  uk_demand, us_or_russia):
 
     print(countries_list_pipes)
     print(countries_list_ships)
     
-  #Define the piecewise linear cost function
-    def printSolution(m):
+    #Define the piecewise linear cost function
+      def printSolution(m):
         '''
         A best practice is to define a function that prints the solution of the model (if it's not too big to display)
         '''
@@ -159,7 +219,6 @@ def complex_model(countries, maxProduction, days_ship, cost, lb_set, ub_set, cou
          quicksum(auxiliary[c,p]*piecewise_price[c,p][0] for c in countries_list_pipes for p in pieces_list) +
          quicksum(quantity[c]*cost[c] for c in countries_list_ships) +
          quicksum(number_of_ship[c,s]*ships_capacity[s][1]*days_ship[c] for c in countries_list_ships for s in ships_list), GRB.MINIMIZE)
-
 
 Running our more realistic model with a piecewise function for the countries using pipelines and adding a variable cost to the countries using ships, it returned that everything should be allocated to Russia, with total costs amounting to $0.408 billion. However, importing everything from one country – and particularly Russia, given the political situation - is far from realistic. For this reason, we built a prototype such that one can input given constraints into the model. For example, one constraint could be to set the lower bound for imports from the US to be at least 3 billion gallons. 
 
