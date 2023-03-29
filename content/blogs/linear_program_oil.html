@@ -1,0 +1,64 @@
+---
+categories:
+- ""
+- ""
+date: "2023-03-29"
+description: ""
+draft: false
+image: ""
+keywords: ""
+slug: linear_program_oil
+title: Using Gurobi Solver to determine optimze UK's Oil Imports
+---
+
+
+
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
+<p>Rising energy prices across Europe has caused inflation to skyrocket, affecting millions of households and students alike. There are a few factors that have contributed to this, with the most significant being ongoing political instability. Energy prices in the UK for example reached an average of $0.34 per kWh in early 2023 - an increase of 60.3% compared to pre-Ukraine war. Considering that crude oil accounts for a third of UK’s energy demand and sourcing energy takes a long time, my study group and I set out to build a small- scale optimization model for the UK government to optimise their oil imports.</p>
+<p><img src="../../../../../../../../img/blogs/oil_prices.png" /><!-- --></p>
+<p>In 2021 the UK consumed 15.494 billion gallons of oil, 1.9 billion coming from net oil production (the UK extracts oil from the North Sea) and therefore 13.539 billion gallons coming from imports. Given the geopolitical uncertainties and the extraordinary high prices, the UK must focus on diversifying its pool of crude oil suppliers and optimize its purchasing strategy. This project is aimed at setting realistic constraints and assessing the output of the decision variable (how much oil to import from each country).</p>
+</div>
+<div id="data-sources-and-key-assumptions" class="section level3">
+<h3>Data Sources and Key Assumptions</h3>
+<p>The data used for the analysis was obtained from the UK Department for Business, Energy &amp; Industrial Strategy. The model built is a simplified version that requires many more inputs such as live prices and trade deals to become more realistic. Nevertheless, a full-scale project version of this can genuinely improve the decision-making process for government officials. This is especially the case for the Department for International Trade who can gain insights from the model to decide on for example negotiation tactics.
+For simplicity, we looked at the 6 largest oil exporters to the UK (they account for more than 95% of total imports) and calculated the average production price per gallon and their respective maximum capacity. The numeric calculations are in billions of gallons and in annual terms (2021).</p>
+<p><img src="../../../../../../../../img/blogs/capacity_price.png" /><!-- --></p>
+</div>
+<div id="mixed-integer-linear-programming-model" class="section level3">
+<h3>Mixed-Integer Linear Programming Model</h3>
+<p><strong>Simple Model</strong></p>
+<p>Decision variable: Quantity to import from each country
+Constraints:
+* Quantity should be less than or equal to the respective capacity of each country
+* Sum of quantity must be at least 13.6 billion (the demand for oil) Objective: minimize the total cost (quantity of each country x price)</p>
+<p>Running this very basic model we get an output where 100% of imports are allocated to one country, Libya for a total price of $0.272 billion. This is because Libya has the lowest price per gallon and can supply the total demand.</p>
+<p><strong>Complex Model</strong></p>
+<p>Adding a Piecewise Function:
+In the real world, price per gallon does not necessarily have a linear relationship between quantity and price. Rather, transportation costs are crucial in determining the cost of crude oil. Many countries build pipelines for transporting oil, involving significant fixed and operating costs that vary depending on the length and capacity of each pipeline. Others use very oil tankers as their main transportation method of crude oil, which only involves variable transportation costs. We analyzed the price it costs transporting using each version.</p>
+<p>Pipelines
+There are four countries that import crude oil to the UK via pipelines: <em>Norway, Libya, Russia</em>, and <em>Algeria</em>. We assume that there is a 7 cents per gallon cost to transport oil through a pipeline, regardless of length. Additionally, pipelines have a fixed cost associated with them. This is accounted for by adding $1 cost per gallon for the first x amount of gallons transported through the pipeline. We assume 10% maintenance costs and a 50-year lifespan (depreciation) for pipelines.
+Norway: Total yearly fixed cost: 204 million
+Libya: Total yearly fixed cost: 792 million
+Libya: Total yearly fixed cost: 931 million
+Russia: we assume no fixed costs for the UK since this is paid fully by Russia</p>
+<p>To make the piecewise function work in the code we added:
+* Auxiliary variable that sets an upper bound for each decision variable based on range
+* Auxiliary variable that returns a binary number whether Piece A is fully allocated
+* Logic that if piece A is less than or equal to the upper bound of a given range, then is piece A full is 0, else it is 1 and Piece B can start being allocated
+* Constraint that quantity allocated to each country must be equal to the sum of oil allocated to Piece A and Piece B</p>
+<p>Tankers
+Next, we proceed to add include <em>Nigeria</em> and <em>the US</em> to our model, which export crude oil to the UK via oil tankers. The cost of chartering a ship can vary widely depending on the length of the voyage, as well as the type of tanker used in transport since this determines total capacity for transport. We identified three common oil tankers:</p>
+<p><img src="../../../../../../../../img/blogs/tankers.png" /><!-- -->
+Running our more realistic model with a piecewise function for the countries using pipelines and adding a variable cost to the countries using ships, it returned that everything should be allocated to Russia, with total costs amounting to $0.408 billion. However, importing everything from one country – and particularly Russia, given the political situation - is far from realistic. For this reason, we built a prototype such that one can input given constraints into the model. For example, one constraint could be to set the lower bound for imports from the US to be at least 3 billion gallons.</p>
+<p>This is one example where we added realistic constraints:
+<img src="../../../../../../../../img/blogs/results.png" /><!-- --></p>
+<p><strong>Russia or US Imports</strong>
+We have added an additional constraint to ensure that if we import oil from the USA, we cannot import from Russia, and vice versa, using the big-M method. The constraint is enforced by setting the quantity of oil imported from one country to be less than or equal to the big-M value times the binary variable representing the decision to import from that country and setting the sum of the two binary variables to be less than or equal to 1. By doing this, we ensure that only one of the binary variables can take a value of 1, meaning that we can only import oil from one of the two countries. This constraint helps us explore alternative sources of oil and consider the impact of potential restrictions on oil imports from these countries, considering the maximum production capacity and transportation costs from different countries.</p>
+<p><strong>Predicting Future Demand</strong>
+Finally, we determine the UK’s budget allocation for the upcoming year for crude oil. We first simulate demand for the next year using the Poisson distribution, take the 2021 demand as the lambda and 13.6 as the mean. We use the same constraints as under the “Russia or US imports” model. We then found the 0th, 25th, 50th, 75th and 100th percentile demands, and ran the whole model again for these 5 demands to output the range of possible costs of oil to the U.K. This is relevant for future budgeting but also for deciding on where to import oil from. For example, if the expected demand is higher, the UK might opt for imports from Libya because</p>
+<p><strong>Prototype</strong>
+We built a Graphical User Interface that is connected to our Gurobi Solver This interface allows users to input their own constraints, choose whether they want the model to optimize using the simple (not including transportation costs) or complex model, and whether the UK is sanctioning Russia. This is how the prototype looks like:
+<img src="../../../../../../../../img/blogs/prototype.png" /><!-- --></p>
+<p>If you have a Gurobi license you can download the Python script we used in this analysis <a href="/Users/wybeharms/Desktop/LBS/Decision%20Analytics%20and%20Modeling/group_project/decision_analytics_group_13/Group_13_final_project_old.py">here</a> and run the solver yourself!</p>
+</div>

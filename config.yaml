@@ -107,3 +107,8 @@ params:
         subtitle: Using actual Police Stop & Search Data to create insightful visuals
         title: Data Visualisations
         url: blogs/problem_set_2_wybe
+        
+      - image: oil_background.jpg
+        subtitle: Using Gurobi Software to build a Linear Program
+        title: Optimizing UK Oil Imports
+        url: blogs/linear_program_oil
